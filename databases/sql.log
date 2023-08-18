@@ -1,0 +1,284 @@
+timestamp: 2020-02-06T11:37:18.880019
+CREATE TABLE `auth_user`(
+    `id` INT AUTO_INCREMENT NOT NULL,
+    `first_name` VARCHAR(128),
+    `last_name` VARCHAR(128),
+    `email` VARCHAR(512),
+    `username` VARCHAR(128),
+    `password` VARCHAR(512),
+    `registration_key` VARCHAR(512),
+    `reset_password_key` VARCHAR(512),
+    `registration_id` VARCHAR(512),
+    `is_active` CHAR(1),
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2020-02-06T11:37:18.895256
+CREATE TABLE `auth_group`(
+    `id` INT AUTO_INCREMENT NOT NULL,
+    `role` VARCHAR(512),
+    `description` LONGTEXT,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2020-02-06T11:37:18.905570
+CREATE TABLE `auth_membership`(
+    `id` INT AUTO_INCREMENT NOT NULL,
+    `user_id` INT  , INDEX `user_id__idx` (`user_id`), FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`) ON DELETE CASCADE,
+    `group_id` INT  , INDEX `group_id__idx` (`group_id`), FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`) ON DELETE CASCADE,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2020-02-06T11:37:18.915877
+CREATE TABLE `auth_permission`(
+    `id` INT AUTO_INCREMENT NOT NULL,
+    `group_id` INT  , INDEX `group_id__idx` (`group_id`), FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`) ON DELETE CASCADE,
+    `name` VARCHAR(512),
+    `table_name` VARCHAR(512),
+    `record_id` INTEGER,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2020-02-06T11:37:18.924648
+CREATE TABLE `auth_event`(
+    `id` INT AUTO_INCREMENT NOT NULL,
+    `time_stamp` DATETIME,
+    `client_ip` VARCHAR(512),
+    `user_id` INT  , INDEX `user_id__idx` (`user_id`), FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`) ON DELETE CASCADE,
+    `origin` VARCHAR(512),
+    `description` LONGTEXT,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2020-02-06T11:37:18.933545
+CREATE TABLE `auth_cas`(
+    `id` INT AUTO_INCREMENT NOT NULL,
+    `user_id` INT  , INDEX `user_id__idx` (`user_id`), FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`) ON DELETE CASCADE,
+    `created_on` DATETIME,
+    `service` VARCHAR(512),
+    `ticket` VARCHAR(512),
+    `renew` CHAR(1),
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2023-06-27T16:17:34.246996
+CREATE TABLE `auth_user`(
+    `id` INT AUTO_INCREMENT NOT NULL,
+    `first_name` VARCHAR(128),
+    `last_name` VARCHAR(128),
+    `email` VARCHAR(512),
+    `username` VARCHAR(128),
+    `password` VARCHAR(512),
+    `registration_key` VARCHAR(512),
+    `reset_password_key` VARCHAR(512),
+    `registration_id` VARCHAR(512),
+    `is_active` CHAR(1),
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARACTER SET utf8;
+timestamp: 2023-06-27T16:17:48.438270
+CREATE TABLE `auth_user`(
+    `id` INT AUTO_INCREMENT NOT NULL,
+    `first_name` VARCHAR(128),
+    `last_name` VARCHAR(128),
+    `email` VARCHAR(512),
+    `username` VARCHAR(128),
+    `password` VARCHAR(512),
+    `registration_key` VARCHAR(512),
+    `reset_password_key` VARCHAR(512),
+    `registration_id` VARCHAR(512),
+    `is_active` CHAR(1),
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARACTER SET utf8;
+timestamp: 2023-06-28T17:16:11.843153
+CREATE TABLE `patient_type`(
+    `id` INT AUTO_INCREMENT NOT NULL,
+    `name` VARCHAR(30),
+    `description` VARCHAR(128) UNIQUE,
+    `active` CHAR(1),
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARACTER SET utf8;
+faked!
+timestamp: 2023-06-28T17:16:11.846421
+CREATE TABLE `patient`(
+    `id` INT AUTO_INCREMENT NOT NULL,
+    `patient_type` INT  , INDEX `patient_type__idx` (`patient_type`), FOREIGN KEY (`patient_type`) REFERENCES `patient_type` (`id`) ON DELETE CASCADE,
+    `expedient` VARCHAR(10),
+    `first_name` VARCHAR(30),
+    `last_name` VARCHAR(30),
+    `second_last_name` VARCHAR(30),
+    `birth_date` DATE,
+    `email` VARCHAR(128) UNIQUE,
+    `phone_1` VARCHAR(30),
+    `phone_2` VARCHAR(30),
+    `phone_3` VARCHAR(30),
+    `first_time` CHAR(1),
+    `blocked` CHAR(1),
+    `created_on` DATETIME,
+    `created_by` INTEGER,
+    `comment` VARCHAR(128) UNIQUE,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARACTER SET utf8;
+faked!
+timestamp: 2023-06-28T17:16:14.847382
+CREATE TABLE `service`(
+    `id` INT AUTO_INCREMENT NOT NULL,
+    `name` VARCHAR(30),
+    `description` VARCHAR(128) UNIQUE,
+    `active` CHAR(1),
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARACTER SET utf8;
+faked!
+timestamp: 2023-06-28T17:16:14.850111
+CREATE TABLE `service_cost`(
+    `id` INT AUTO_INCREMENT NOT NULL,
+    `concept` VARCHAR(30),
+    `service` INT  , INDEX `service__idx` (`service`), FOREIGN KEY (`service`) REFERENCES `service` (`id`) ON DELETE CASCADE,
+    `cost` INTEGER,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARACTER SET utf8;
+faked!
+timestamp: 2023-06-28T17:16:14.854782
+CREATE TABLE `service_slot`(
+    `id` INT AUTO_INCREMENT NOT NULL,
+    `service` INT  , INDEX `service__idx` (`service`), FOREIGN KEY (`service`) REFERENCES `service` (`id`) ON DELETE CASCADE,
+    `patient_type` INT  , INDEX `patient_type__idx` (`patient_type`), FOREIGN KEY (`patient_type`) REFERENCES `patient_type` (`id`) ON DELETE CASCADE,
+    `day_of_week` INTEGER,
+    `hour` TIME,
+    `spaces` INTEGER,
+    `active` CHAR(1),
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARACTER SET utf8;
+faked!
+timestamp: 2023-06-28T17:16:14.860512
+CREATE TABLE `appointment`(
+    `id` INT AUTO_INCREMENT NOT NULL,
+    `patient` INT  , INDEX `patient__idx` (`patient`), FOREIGN KEY (`patient`) REFERENCES `patient` (`id`) ON DELETE CASCADE,
+    `service` INT  , INDEX `service__idx` (`service`), FOREIGN KEY (`service`) REFERENCES `service` (`id`) ON DELETE CASCADE,
+    `service_slot` INT  , INDEX `service_slot__idx` (`service_slot`), FOREIGN KEY (`service_slot`) REFERENCES `service_slot` (`id`) ON DELETE CASCADE,
+    `legacy` CHAR(1),
+    `created_on` DATETIME,
+    `created_by` INTEGER,
+    `confirmed_on` DATETIME,
+    `confirmed_by` INTEGER,
+    `cancelled_on` DATETIME,
+    `cancelled_by` INTEGER,
+    `scheduled` DATETIME,
+    `ptt_arrival` DATETIME,
+    `ptt_prepping` DATETIME,
+    `ptt_attention` DATETIME,
+    `ptt_release` DATETIME,
+    `cost` INTEGER,
+    `weight` DOUBLE,
+    `height` DOUBLE,
+    `status` VARCHAR(30),
+    `comment` VARCHAR(128) UNIQUE,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARACTER SET utf8;
+faked!
+timestamp: 2023-07-06T19:38:03.270825
+ALTER TABLE `service` ADD `description__tmp` VARCHAR(128);
+faked!
+UPDATE `service` SET `description__tmp`=`description`;
+faked!
+ALTER TABLE `service` DROP COLUMN `description`;
+faked!
+ALTER TABLE `service` ADD `description` VARCHAR(128);
+faked!
+UPDATE `service` SET `description`=`description__tmp`;
+faked!
+ALTER TABLE `service` DROP COLUMN `description__tmp`;
+faked!
+success!
+timestamp: 2023-07-06T19:38:03.275087
+ALTER TABLE `patient_type` ADD `description__tmp` VARCHAR(128);
+faked!
+UPDATE `patient_type` SET `description__tmp`=`description`;
+faked!
+ALTER TABLE `patient_type` DROP COLUMN `description`;
+faked!
+ALTER TABLE `patient_type` ADD `description` VARCHAR(128);
+faked!
+UPDATE `patient_type` SET `description`=`description__tmp`;
+faked!
+ALTER TABLE `patient_type` DROP COLUMN `description__tmp`;
+faked!
+success!
+timestamp: 2023-07-06T19:38:03.278200
+ALTER TABLE `patient` ADD `email__tmp` VARCHAR(128);
+faked!
+UPDATE `patient` SET `email__tmp`=`email`;
+faked!
+ALTER TABLE `patient` DROP COLUMN `email`;
+faked!
+ALTER TABLE `patient` ADD `email` VARCHAR(128);
+faked!
+UPDATE `patient` SET `email`=`email__tmp`;
+faked!
+ALTER TABLE `patient` DROP COLUMN `email__tmp`;
+faked!
+timestamp: 2023-07-06T19:38:03.279494
+ALTER TABLE `patient` ADD `comment__tmp` VARCHAR(128);
+faked!
+UPDATE `patient` SET `comment__tmp`=`comment`;
+faked!
+ALTER TABLE `patient` DROP COLUMN `comment`;
+faked!
+ALTER TABLE `patient` ADD `comment` VARCHAR(128);
+faked!
+UPDATE `patient` SET `comment`=`comment__tmp`;
+faked!
+ALTER TABLE `patient` DROP COLUMN `comment__tmp`;
+faked!
+timestamp: 2023-07-06T19:38:03.282349
+ALTER TABLE `appointment` ADD `ptt_arrival__tmp` TIME;
+faked!
+UPDATE `appointment` SET `ptt_arrival__tmp`=`ptt_arrival`;
+faked!
+ALTER TABLE `appointment` DROP COLUMN `ptt_arrival`;
+faked!
+ALTER TABLE `appointment` ADD `ptt_arrival` TIME;
+faked!
+UPDATE `appointment` SET `ptt_arrival`=`ptt_arrival__tmp`;
+faked!
+ALTER TABLE `appointment` DROP COLUMN `ptt_arrival__tmp`;
+faked!
+timestamp: 2023-07-06T19:38:03.283223
+ALTER TABLE `appointment` ADD `ptt_prepping__tmp` TIME;
+faked!
+UPDATE `appointment` SET `ptt_prepping__tmp`=`ptt_prepping`;
+faked!
+ALTER TABLE `appointment` DROP COLUMN `ptt_prepping`;
+faked!
+ALTER TABLE `appointment` ADD `ptt_prepping` TIME;
+faked!
+UPDATE `appointment` SET `ptt_prepping`=`ptt_prepping__tmp`;
+faked!
+ALTER TABLE `appointment` DROP COLUMN `ptt_prepping__tmp`;
+faked!
+timestamp: 2023-07-06T19:38:03.283743
+ALTER TABLE `appointment` ADD `ptt_attention__tmp` TIME;
+faked!
+UPDATE `appointment` SET `ptt_attention__tmp`=`ptt_attention`;
+faked!
+ALTER TABLE `appointment` DROP COLUMN `ptt_attention`;
+faked!
+ALTER TABLE `appointment` ADD `ptt_attention` TIME;
+faked!
+UPDATE `appointment` SET `ptt_attention`=`ptt_attention__tmp`;
+faked!
+ALTER TABLE `appointment` DROP COLUMN `ptt_attention__tmp`;
+faked!
+timestamp: 2023-07-06T19:38:03.284600
+ALTER TABLE `appointment` ADD `ptt_release__tmp` TIME;
+faked!
+UPDATE `appointment` SET `ptt_release__tmp`=`ptt_release`;
+faked!
+ALTER TABLE `appointment` DROP COLUMN `ptt_release`;
+faked!
+ALTER TABLE `appointment` ADD `ptt_release` TIME;
+faked!
+UPDATE `appointment` SET `ptt_release`=`ptt_release__tmp`;
+faked!
+ALTER TABLE `appointment` DROP COLUMN `ptt_release__tmp`;
+faked!
+success!

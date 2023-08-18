@@ -1,0 +1,40 @@
+{{response.files.append(URL(r=request,c='static',f='css/custom.css'))}}
+{{extend 'layout.html'}}
+<h5>{{=response.title}}</h5>
+<div class='filter_form'>
+    {{=filter_form.custom.begin}}
+    {{=back}}
+    Servicio: {{=filter_form.custom.widget.service}}
+    Mes: {{=filter_form.custom.widget.month}}
+    Año: {{=filter_form.custom.widget.year}}
+    {{=filter_form.custom.submit}}
+    {{=filter_form.custom.end}}
+  </div>
+<div class="container">
+  <div class="left">{{=opts_table}}</div>
+  <div class="right">
+    {{=XML(hmon_cal)}}
+    {{=XML(nmon_cal)}}
+    {{=XML(nnmon_cal)}}
+  </div>
+</div>
+<style>
+  .container {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: 1fr;
+    gap: 0px 0px;
+    grid-template-areas:
+      "left right";
+  }
+  .left {
+    margin-left:0;
+    grid-area: left;
+  }
+  .right {
+    grid-area: right;
+  }
+  .grid_button {
+    font-size: large !important;
+  }
+</style>

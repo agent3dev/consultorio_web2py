@@ -1,0 +1,21 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+from pydal import DAL, Field
+dc = DAL('mysql://gestor:l4br4d0r@localhost/consultorio',check_reserved=['mysql'], migrate=False)
+
+dc.define_table('pacientes',
+                Field('idPaciente', length=5, writable=False),
+                Field('nombre', length=20),
+                Field('apellidoP', length=15, label='Primer apellido'),
+                Field('apellidoM', length=15, label='Segundo apellido'),
+                Field('telLocal', 'bigint', label='Teléfono fijo'),
+                Field('telMovil', 'bigint', label='Teléfono celular'),
+                Field('fechaN', 'date', label='Fecha de nacimiento'),
+                Field('id', 'integer', readable=False, writable=False),
+                Field('tiposPac_idTiposPac', length=2, label='Tipo de paciente'),
+                Field('fechaElabExp', 'date', label='Fecha de registro', readable=False, writable=False),
+                Field('elaboroexp', 'integer', readable=False, writable=False),
+                Field('sub', 'integer', default=0, readable=False, writable=False),
+                primarykey=['idPaciente'],
+                migrate=False)
+

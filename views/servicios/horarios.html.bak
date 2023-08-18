@@ -1,0 +1,14 @@
+{{response.files.append(URL(r=request,c='static',f='css/custom.css'))}}
+{{extend 'layout.html'}}
+<H5>{{=response.title}}</H5>
+<div class='parent'>
+  <div class='filter_form'>
+   {{=filter_form.custom.begin}}
+    Servicio: {{=filter_form.custom.widget.service}}
+    {{=filter_form.custom.submit}}
+    {{=filter_form.custom.end}}
+  </div>
+  <div class='items_grid'>
+    {{=grid}}
+  </div>
+</div>

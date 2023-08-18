@@ -1,0 +1,67 @@
+.navbar {
+    background-color: rgb(0, 0, 0);
+    background-image: linear-gradient(DarkGoldenRod, rgb(128,128,0));
+}
+a {
+    color:Black;
+    font-size: medium;
+}
+.btn {
+    color: white;
+    background-color:rgb(128,128,0);
+    font-size: small;
+}
+.btn-secondary {
+    background-color:DarkGoldenRod;
+    font-size: small;
+}
+.w2p_odd {
+    color:#60300d;
+    background:  Bisque;
+    font-size: small;
+}
+.w2p_even {
+    color:#60300d;
+    background: OldLace;
+    font-size: small;
+}
+.link_2 {
+    color:rgb(230, 149, 0);
+    font-size: small;
+}
+.link_1 {
+    color:#361b07;
+    font-size: small;
+}
+.link_header {
+    color:Black;
+    font-size: small;
+}
+.web2py_table {
+    font-size: small;
+}
+.web2py_grid thead th {
+    background: linear-gradient(to top, white,  DarkGoldenRod);
+
+}
+.web2py_paginator {
+    background: linear-gradient(to bottom, white,  DarkGoldenRod);
+}
+.custom table {
+  border-spacing: 0.5rem;
+}
+.custom td, th {
+  border: 1px #999;
+  padding: 0.5rem;
+  text-align: left;
+}
+.custom th {
+  color:white;
+  background: DarkGoldenRod;
+}
+.custom tbody tr:nth-child(odd) {
+  background: Bisque;
+}
+.custom tbody tr:hover {
+  background: #eee;
+}
