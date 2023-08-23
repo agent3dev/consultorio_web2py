@@ -3,7 +3,7 @@
 <div class='parent'>
   <div class='filter_form'>
    {{=filter_form.custom.begin}}
-    Agenda: {{=filter_form.custom.widget.service}}
+    Servicio: {{=filter_form.custom.widget.service}}
     Fecha: {{=filter_form.custom.widget.open_day}}
     {{=filter_form.custom.submit}}
     {{=filter_form.custom.end}}
@@ -12,3 +12,11 @@
     {{=grid}}
   </div>
 </div>
+<style>
+  .grid_button{
+    font-style: small;
+    width:100px;
+    height:20px;
+
+  }
+</style>
