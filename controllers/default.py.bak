@@ -40,7 +40,7 @@ def index():
   dc.patient.first_time.label = '1ra Vez'
   fields = [dc.appointment.id,
             dc.appointment.service,
-            dc.appointment.service_slot,
+            #dc.appointment.service_slot,
             dc.appointment.scheduled_day,
             dc.appointment.scheduled_time,
             dc.patient.expedient,
@@ -85,7 +85,7 @@ def index():
                                                        _href="file:///home/")),
                                dict(header='Receta',
                                     body=lambda row: A('📄', _class='grid_label',_target='blank',
-                                                       _href=URL('citas', 'confirmar', vars=dict(app=row['appointment.id'])))),
+                                                       _href=URL('formatos', 'receta', vars=dict(app=row['appointment.id'])))),
                                dict(header='Cambiar estado',
                                     body=lambda row: A(TAG.button(stat_dict[row['appointment.status']],_class='grid_button'),
                                                        _href=URL('default', 'change_status', vars=dict(app=row['appointment.id']))) \

@@ -40,7 +40,7 @@ def index():
   dc.patient.first_time.label = '1ra Vez'
   fields = [dc.appointment.id,
             dc.appointment.service,
-            dc.appointment.service_slot,
+            #dc.appointment.service_slot,
             dc.appointment.scheduled_day,
             dc.appointment.scheduled_time,
             dc.patient.expedient,
