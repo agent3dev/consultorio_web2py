@@ -1,4 +1,8 @@
 # -*- coding: utf-8 -*-
+import socket
+from os import getenv
+
+
 from gluon.contrib.appconfig import AppConfig
 from gluon.tools import Auth
 import locale
@@ -16,7 +20,22 @@ if request.is_local and not configuration.get('app.production'):
 response.formstyle = 'bootstrap4_inline'
 response.form_label_separator = ''
 
-db = DAL('mysql://devel:leipzigmango@localhost/nm_auth',
+def get_uri_from_env():
+    engine = getenv('NM_ENGINE').replace("'", '')
+    user = getenv('NM_USER').replace("'", '')
+    password = getenv('NM_PASSWORD').replace("'", '')
+    host = getenv('NM_HOST').replace("'", '')
+    return engine + '://' + user + ':' + password + '@' + host
+
+hostname = socket.gethostname()
+if hostname == 'neuroma.info':
+    db_uri = get_uri_from_env() + '/nm_prod'
+elif hostname == 'neuroma.sytes.net':
+    db_uri = get_uri_from_env() + '/nm_test'
+else:
+    db_uri = 'mysql://devel:leipzigmango@localhost/nm_dev'
+
+db = DAL(db_uri,
          migrate=False,
          lazy_tables=True,
          check_reserved=['mysql'])
@@ -43,4 +62,4 @@ response.show_toolbar = configuration.get('app.toolbar')
 
 def check_membership(membership):
      if auth.has_membership('admin') or auth.has_membership(membership): return True
-     else: redirect(URL('default'))
+     else: False
