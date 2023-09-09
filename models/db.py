@@ -29,11 +29,11 @@ def get_uri_from_env():
 
 hostname = socket.gethostname()
 if hostname == 'neuroma.info':
-    db_uri = get_uri_from_env() + '/nm_prod'
+    db_uri = get_uri_from_env() + '/nm_auth_prod'
 elif hostname == 'neuroma.sytes.net':
-    db_uri = get_uri_from_env() + '/nm_test'
+    db_uri = get_uri_from_env() + '/nm_auth_test'
 else:
-    db_uri = 'mysql://devel:leipzigmango@localhost/nm_dev'
+    db_uri = 'mysql://devel:leipzigmango@localhost/nm_auth_dev'
 
 db = DAL(db_uri,
          migrate=False,
