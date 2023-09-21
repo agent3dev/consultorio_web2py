@@ -82,7 +82,7 @@ def index():
                                if row['appointment.status'] in ['Pendiente', 'Cancelada'] else '' ),
                                dict(header='EXP',
                                     body=lambda row: A('📁', _class='grid_label',_target='blank',
-                                                       _href='file:///C:\'Users\'Testy-lap\'Documents')),
+                                                       _href='file:///Z:\\EXPEDIENTES\\'+row['patient.expedient'])),
                                dict(header='Receta',
                                     body=lambda row: A('📄', _class='grid_label',_target='blank',
                                                        _href=URL('formatos', 'receta', vars=dict(app=row['appointment.id'])))),
