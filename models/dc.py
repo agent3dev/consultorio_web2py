@@ -17,7 +17,7 @@ if hostname == 'neuroma.info':
 elif hostname == 'neuroma.sytes.net':
     db_uri = get_uri_from_env() + '/nm_test'
 else:
-    db_uri = 'mysql://devel:leipzigmango@localhost/nm_dev'
+    db_uri = 'mysql://localuser:localpassword@localhost/nm_dev'
 
 dc = DAL(uri=db_uri,
          migrate=False,

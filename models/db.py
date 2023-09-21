@@ -33,7 +33,7 @@ if hostname == 'neuroma.info':
 elif hostname == 'neuroma.sytes.net':
     db_uri = get_uri_from_env() + '/nm_auth_test'
 else:
-    db_uri = 'mysql://devel:leipzigmango@localhost/nm_auth_dev'
+    db_uri = 'mysql://localuser:localpassword@localhost/nm_auth_dev'
 
 db = DAL(db_uri,
          migrate=False,
