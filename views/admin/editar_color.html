@@ -1,0 +1,44 @@
+{{response.files.append(URL(r=request,c='static',f='css/custom.css'))}}
+{{extend 'layout.html'}}
+<H5>{{=response.title}}</H5>
+<div class="web_admin_editable_form">
+    {{=form.custom.begin}}
+    Estatus: <div>{{=form.custom.widget.status}}</div>
+    Código CSS 1: <div>{{=form.custom.widget.hex_code_1}}</div>
+    {{=color_picker_1}}
+    {{=form.custom.submit}}
+    {{=form.custom.end}}
+</div>
+
+<script type="text/javascript" src="../static/js/colorpicker.min.js"></script>
+<script>
+    ColorPicker(
+        document.getElementById('color_picker_1'),
+        function(hex, hsv, rgb) {
+        console.log(hsv.h, hsv.s, hsv.v);         // [0-359], [0-1], [0-1]
+        console.log(rgb.r, rgb.g, rgb.b);         // [0-255], [0-255], [0-255]
+        document.getElementById("status_color_hex_code_1").value = hex;
+        document.getElementById("status_color_hex_code_1").style.backgroundColor = hex;
+        document.getElementById("status_color_hex_code_1").style.color = hex;        // #HEX
+    });
+</script>
+<style>
+    .color_picker {
+        position: relative;
+        display: grid;
+        grid-template-columns: 150px 50px;
+        grid-template-rows:  100px;
+        grid-template-areas:
+        "picker-wrapper"
+        "slider-wrapper";
+        height: 160px;
+        min-height: 160px;
+    }
+
+    .picker-wrapper {
+        position: relative;
+    }
+    .slider-wrapper {
+        position: relative;
+    }
+</style>

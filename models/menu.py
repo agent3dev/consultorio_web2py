@@ -5,14 +5,17 @@ if 'auth' in globals():
             else:
                 if auth.has_membership('admin') or auth.has_membership('clinic'):
                     response.menu.append(('Admin', False, '#',
-                                          [('Registros', False, URL('agenda', 'appadmin', 'index')),
+                                          [('Colores', False, URL('admin', 'colores')),
+                                           ('Registros', False, URL('agenda', 'appadmin', 'index')),
                                            ('Tipos paciente', False, URL('admin','tipos')) ,
-                                           ('Usuarios', False, URL('admin','usuarios'))]
+                                           ('Usuarios', False, URL('admin','usuarios'))
+                                          ]
                                         ))
                     response.menu.append(('Servicios', False, '#',
                                           [('Servicios', False, URL('servicios','index')) ,
                                            ('Horarios', False, URL('servicios','horarios')) ,
-                                           ('Costos', False, URL('servicios','costos'))]
+                                           ('Costos', False, URL('servicios','costos'))
+                                          ]
                                         ))
                     response.menu.append(('Pacientes', False, URL('pacientes','index')))
                     response.menu.append(('Nueva cita', False, URL('citas','index')))

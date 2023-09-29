@@ -104,5 +104,9 @@ dc.define_table('appointment',
                 Field('comment', length=128, default='', label='Comentario'))
 dc.appointment.id.readable = False
 
+dc.define_table('status_color',
+                Field('status', label='Estatus'),
+                Field('hex_code_1', length=7, label='Código CSS 1'))
+dc.status_color.id.readable = False
 
 def share_dc(): return dc

@@ -5,7 +5,7 @@ if 'auth' in globals():
             else:
                 if auth.has_membership('admin') or auth.has_membership('clinic'):
                     response.menu.append(('Admin', False, '#',
-                                          [('Registros', False, URL('admin', 'appadmin', 'index')),
+                                          [('Registros', False, URL('agenda', 'appadmin', 'index')),
                                            ('Tipos paciente', False, URL('admin','tipos')) ,
                                            ('Usuarios', False, URL('admin','usuarios'))]
                                         ))

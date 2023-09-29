@@ -282,3 +282,99 @@ faked!
 ALTER TABLE `appointment` DROP COLUMN `ptt_release__tmp`;
 faked!
 success!
+timestamp: 2023-09-29T15:14:32.909151
+CREATE TABLE `service`(
+    `id` INT AUTO_INCREMENT NOT NULL,
+    `name` VARCHAR(30),
+    `description` VARCHAR(128),
+    `active` CHAR(1),
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARACTER SET utf8;
+faked!
+timestamp: 2023-09-29T15:14:32.911370
+CREATE TABLE `service_cost`(
+    `id` INT AUTO_INCREMENT NOT NULL,
+    `concept` VARCHAR(30),
+    `service` INT  , INDEX `service__idx` (`service`), FOREIGN KEY (`service`) REFERENCES `service` (`id`) ON DELETE CASCADE,
+    `cost` INTEGER,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARACTER SET utf8;
+faked!
+timestamp: 2023-09-29T15:14:32.911994
+CREATE TABLE `patient_type`(
+    `id` INT AUTO_INCREMENT NOT NULL,
+    `name` VARCHAR(30),
+    `description` VARCHAR(128),
+    `active` CHAR(1),
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARACTER SET utf8;
+faked!
+timestamp: 2023-09-29T15:14:32.912821
+CREATE TABLE `service_slot`(
+    `id` INT AUTO_INCREMENT NOT NULL,
+    `service` INT  , INDEX `service__idx` (`service`), FOREIGN KEY (`service`) REFERENCES `service` (`id`) ON DELETE CASCADE,
+    `patient_type` INT  , INDEX `patient_type__idx` (`patient_type`), FOREIGN KEY (`patient_type`) REFERENCES `patient_type` (`id`) ON DELETE CASCADE,
+    `day_of_week` INTEGER,
+    `hour` TIME,
+    `spaces` INTEGER,
+    `active` CHAR(1),
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARACTER SET utf8;
+faked!
+timestamp: 2023-09-29T15:14:32.913609
+CREATE TABLE `patient`(
+    `id` INT AUTO_INCREMENT NOT NULL,
+    `expedient` VARCHAR(10),
+    `first_name` VARCHAR(30),
+    `last_name` VARCHAR(30),
+    `second_last_name` VARCHAR(30),
+    `patient_type` INT  , INDEX `patient_type__idx` (`patient_type`), FOREIGN KEY (`patient_type`) REFERENCES `patient_type` (`id`) ON DELETE CASCADE,
+    `birth_date` DATE,
+    `email` VARCHAR(128),
+    `phone_1` VARCHAR(30),
+    `phone_2` VARCHAR(30),
+    `phone_3` VARCHAR(30),
+    `first_time` CHAR(1),
+    `blocked` CHAR(1),
+    `created_on` DATETIME,
+    `created_by` INTEGER,
+    `comment` VARCHAR(128),
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARACTER SET utf8;
+faked!
+timestamp: 2023-09-29T15:14:32.914897
+CREATE TABLE `appointment`(
+    `id` INT AUTO_INCREMENT NOT NULL,
+    `patient` INT  , INDEX `patient__idx` (`patient`), FOREIGN KEY (`patient`) REFERENCES `patient` (`id`) ON DELETE CASCADE,
+    `service` INT  , INDEX `service__idx` (`service`), FOREIGN KEY (`service`) REFERENCES `service` (`id`) ON DELETE CASCADE,
+    `service_slot` INT  , INDEX `service_slot__idx` (`service_slot`), FOREIGN KEY (`service_slot`) REFERENCES `service_slot` (`id`) ON DELETE CASCADE,
+    `legacy` CHAR(1),
+    `arrival_order` INTEGER,
+    `created_by` INTEGER,
+    `confirmed_by` INTEGER,
+    `cancelled_by` INTEGER,
+    `created_on` DATETIME,
+    `scheduled_day` DATE,
+    `scheduled_time` TIME,
+    `confirmed_on` DATETIME,
+    `cancelled_on` DATETIME,
+    `ptt_arrival` TIME,
+    `ptt_prepping` TIME,
+    `ptt_attention` TIME,
+    `ptt_release` TIME,
+    `cost` INTEGER,
+    `weight` DOUBLE,
+    `height` DOUBLE,
+    `status` VARCHAR(30),
+    `comment` VARCHAR(128),
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARACTER SET utf8;
+faked!
+timestamp: 2023-09-29T15:14:32.915303
+CREATE TABLE `status_color`(
+    `id` INT AUTO_INCREMENT NOT NULL,
+    `status` VARCHAR(512),
+    `hex_code_1` VARCHAR(7),
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARACTER SET utf8;
+faked!

@@ -9,8 +9,10 @@ def index():
                                                        _href=URL('citas', 'comentario', vars=dict(app=row['appointment.id'])))
   act_srv_qry = dc.service.active == True
   servicio_reqs = IS_EMPTY_OR(IS_IN_DB(dc(act_srv_qry), 'service.id', 'service.name', zero=T('choose one')))
-  if request.vars.service: default_service = request.vars.service
-  else: default_service = None
+  if request.vars.service:
+        default_service = request.vars.service
+  else:
+    default_service = None
   if request.vars.days_offset is None:
     open_date = datetime.date.today()
   else:
@@ -35,6 +37,9 @@ def index():
     app_qry = (dc.appointment.patient == dc.patient.id) & \
       (dc.appointment.scheduled_day == open_date) & \
         (dc.appointment.service.belongs(act_srv_ids))
+  status_colors = get_dict_from_query(dc, 'status_color', dc.status_color.status == dc.appointment.status, 'status', 'hex_code_1')
+  dc.appointment.status.represent = lambda value, row:\
+        DIV(value,_value=value,_style='color:white; background-color:' +get_color(status_colors, value))
   dc.appointment.patient.label = 'Nombre'
   dc.appointment.scheduled_day.readable = False
   dc.patient.first_time.label = '1ra Vez'
@@ -89,10 +94,18 @@ def index():
                                dict(header='Cambiar estado',
                                     body=lambda row: A(TAG.button(stat_dict[row['appointment.status']],_class='grid_button'),
                                                        _href=URL('default', 'change_status', vars=dict(app=row['appointment.id']))) \
-                               if row['appointment.status'] in statuses and row['appointment.scheduled_day'] == datetime.date.today() else '' ),
+                               if row['appointment.status'] in statuses and \
+                                    row['appointment.scheduled_day'] == datetime.date.today() else '' ),
                              ],
                       orderby=dc.appointment.scheduled_time)
   return dict(filter_form=filter_form, grid=grid)
+
+def get_color(color_dict, status):
+    try:
+        color = color_dict[status]
+    except KeyError:
+        color = '#4e4141'
+    return color
 
 
 @auth.requires(check_membership('clinic'))

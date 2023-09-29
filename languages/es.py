@@ -155,6 +155,7 @@
 'Current session': 'Sesión en curso',
 'currently saved or': 'actualmente guardado o',
 'customize me!': '¡Personalizame!',
+'Código CSS 1': 'Código CSS 1',
 'data uploaded': 'datos subidos',
 'Database': 'Base de datos',
 'Database %s select': 'selección en base de datos %s',
