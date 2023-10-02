@@ -17,11 +17,11 @@ Clone this repository to your local machine using the following command:
 
 shell
 Copy
-git clone https://github.com/your-username/patient-record-manager.git
-```
+git clone https://github.com/agentresdev/consultorio_web2py.git
+
 
 Install the required dependencies by running the following command:
-
+```
 shell
 Copy
 pip install -r requirements.txt
@@ -30,7 +30,7 @@ pip install -r requirements.txt
 Configure the application by modifying the config.py file to match your environment settings, such as database connection details and secret keys.
 
 Run the application using the following command:
-
+```
 shell
 Copy
 python web2py.py -a your_password
