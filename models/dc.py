@@ -109,4 +109,6 @@ dc.define_table('status_color',
                 Field('hex_code_1', length=7, label='Código CSS 1'))
 dc.status_color.id.readable = False
 
-def share_dc(): return dc
+
+def share_dc():
+    return dc

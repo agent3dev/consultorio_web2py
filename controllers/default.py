@@ -43,10 +43,11 @@ def index():
         DIV(value,_value=value,_style= css_line + get_color(status_colors, value))
   dc.appointment.patient.label = 'Nombre'
   dc.appointment.scheduled_day.readable = False
+  dc.appointment.arrival_order.readable = True
   dc.patient.first_time.label = '1ra Vez'
   fields = [dc.appointment.id,
             dc.appointment.service,
-            #dc.appointment.service_slot,
+            dc.appointment.arrival_order,
             dc.appointment.scheduled_day,
             dc.appointment.scheduled_time,
             dc.patient.expedient,
@@ -98,7 +99,7 @@ def index():
                                if row['appointment.status'] in statuses and \
                                     row['appointment.scheduled_day'] == datetime.date.today() else '' ),
                              ],
-                      orderby=dc.appointment.scheduled_time)
+                      orderby=~dc.appointment.arrival_order|dc.appointment.scheduled_time)
   return dict(filter_form=filter_form, grid=grid)
 
 def get_color(color_dict, status):
@@ -108,6 +109,16 @@ def get_color(color_dict, status):
         color = '#4e4141'
     return color
 
+def mark_arrival(app_id):
+    app_rc = get_first(dc, dc.appointment.id == app_id)
+    app_qry = (dc.appointment.scheduled_day == app_rc['scheduled_day']) & \
+        (dc.appointment.service == app_rc['service'])
+    arrival_order = (get_first_sel(dc, app_qry, (dc.appointment.arrival_order.max())) or 0) + 1
+    app_qry = (dc.appointment.patient == app_rc['patient']) & \
+      (dc.appointment.scheduled_day == app_rc['scheduled_day'])
+    dc(app_qry).update(arrival_order=arrival_order,
+                       status='En espera',
+                       ptt_arrival=datetime.datetime.now())
 
 @auth.requires(check_membership('clinic'))
 def change_status():
@@ -120,10 +131,9 @@ def change_status():
     status = request.vars.status
     app_rc = get_first(dc, dc.appointment.id == app_id)
     days_offset = (app_rc['scheduled_day'] - datetime.date.today()).days
-    back_url = URL('default', 'index', vars=dict(service=app_rc['service'], days_offset=days_offset))
+    back_url = URL('default', 'index', vars=dict(days_offset=days_offset))
     if app_rc['status'] in ['Pendiente', 'Confirmada']:
-      dc(dc.appointment.id == app_id).update(status='En espera',
-                                             ptt_arrival=datetime.datetime.now())
+        mark_arrival(app_id)
     elif app_rc['status'] == 'En espera':
       dc(dc.appointment.id == app_id).update(status='Preparación',
                                              ptt_prepping=datetime.datetime.now())
