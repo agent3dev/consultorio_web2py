@@ -7,7 +7,7 @@ def colores():
         redirect(URL('editar_color', vars=dict(color=request.args(2))))
     response.title = 'Listado de colores para estatus'
     dc.status_color.hex_code_1.represent = lambda value, row:\
-        DIV(value,_value=value,_style='background-color:' +value)
+        DIV(value,_value=value,_style='color:white; background-color:' +value)
     grid = SQLFORM.grid(dc.status_color.id > 0,
                       showbuttontext=True,
                       searchable=False,

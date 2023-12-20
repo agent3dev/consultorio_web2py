@@ -26,7 +26,7 @@ def colores():
                       orderby=dc.status_color.id)
     return dict(grid=grid)
 
-@auth.requires(auth.has_membership('admin'))
+@auth.requires(auth.has_membership('clinic'))
 def nuevo_color():
     response.title = 'Nuevo color para estatus de cita'
     status_qry = dc.appointment.created_on >  dtt.datetime.combine(dtt.date(2023,1,1), dtt.time.min)
@@ -47,7 +47,7 @@ def nuevo_color():
                     _class="color_picker", _id="color_picker_1")
     return dict(form=form, color_picker_1=color_picker_1)
 
-@auth.requires(auth.has_membership('admin'))
+@auth.requires(auth.has_membership('clinic'))
 def editar_color():
     back_url = URL('colores')
     if not request.vars.color:
@@ -94,7 +94,7 @@ def tipos():
                       orderby=dc.patient_type.id)
   return dict(grid=grid)
 
-@auth.requires(check_membership('admin'))
+@auth.requires(check_membership('clinic'))
 def usuarios():
   response.title = 'Listado de tipos de paciente'
   grid = SQLFORM.grid(db.auth_user.id > 0,
