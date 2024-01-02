@@ -1,4 +1,5 @@
 import datetime
+from dateutil.relativedelta import relativedelta
 
 
 def get_id(dc, query):
@@ -62,3 +63,13 @@ def get_dict_from_query(dc, table, query, key_field, value_field):
         return ret_dict
     else:
         return dict()
+
+def calculate_age(birth_date, current_date):
+    # birth_date = datetime.datetime.strptime(birth_date, "%Y-%m-%d")
+    # current_date = datetime.datetime.strptime(current_date, "%Y-%m-%d")
+    age = relativedelta(current_date, birth_date)
+
+    # Format the age as "years - months"
+    age_formatted = f"{age.years} a - {age.months} m"
+
+    return age_formatted

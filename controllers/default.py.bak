@@ -99,7 +99,7 @@ def index():
                                if row['appointment.status'] in statuses and \
                                     row['appointment.scheduled_day'] == datetime.date.today() else '' ),
                              ],
-                      orderby=dc.appointment.scheduled_time)
+                      orderby=~dc.appointment.arrival_order|dc.appointment.scheduled_time)
   return dict(filter_form=filter_form, grid=grid)
 
 def get_color(color_dict, status):

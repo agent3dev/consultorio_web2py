@@ -100,6 +100,7 @@ dc.define_table('appointment',
                 Field('cost', 'integer', label='Costo'),
                 Field('weight', 'double', label='Peso'),
                 Field('height', 'double', label='Altura'),
+                Field('age', length=10, label='Edad'),
                 Field('status', length=30, label='Estatus', default='Registrada'),
                 Field('comment', length=128, default='', label='Comentario'))
 dc.appointment.id.readable = False
@@ -109,6 +110,4 @@ dc.define_table('status_color',
                 Field('hex_code_1', length=7, label='Código CSS 1'))
 dc.status_color.id.readable = False
 
-
-def share_dc():
-    return dc
+def share_dc(): return dc

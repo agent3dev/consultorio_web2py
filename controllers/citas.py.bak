@@ -3,8 +3,6 @@
 @auth.requires(check_membership('clinic'))
 def index():
   curmon, curyear = datetime.date.today().month, datetime.date.today().year
-  dc.appointment.weight.readable = False
-  dc.appointment.height.readable = False
   # defaults
   default_service = request.get_vars.service if request.get_vars.service else 1
   default_month = int(request.get_vars.month) if request.get_vars.month else curmon
@@ -250,6 +248,7 @@ def create():
             (dc.appointment.scheduled_day == sel_date) & \
             (dc.appointment.scheduled_time == serv_slot['hour'])
   if dc(app_qry).count() == 0:
+    age = calculate_age(pat_rc['birth_date'], datetime.date.today())
     dc.appointment.insert(patient=patient,
                           service=serv_slot['service'],
                           service_slot=serv_slot['id'],
@@ -268,6 +267,7 @@ import datetime
 import locale
 import calendar
 from service_calendar import ServiceCalendar
+from utils import calculate_age
 # constants
 locale.setlocale(locale.LC_ALL,'es_MX.utf8')
 if not request.user_agent()['is_mobile']: formstyle='table3cols'

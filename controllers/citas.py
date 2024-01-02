@@ -248,10 +248,12 @@ def create():
             (dc.appointment.scheduled_day == sel_date) & \
             (dc.appointment.scheduled_time == serv_slot['hour'])
   if dc(app_qry).count() == 0:
+    age = calculate_age(pat_rc['birth_date'], datetime.date.today())
     dc.appointment.insert(patient=patient,
                           service=serv_slot['service'],
                           service_slot=serv_slot['id'],
                           legacy=False,
+                          age=age,
                           created_on=datetime.datetime.now,
                           created_by=auth.user.id,
                           scheduled_day=sel_date,
@@ -266,6 +268,7 @@ import datetime
 import locale
 import calendar
 from service_calendar import ServiceCalendar
+from utils import calculate_age
 # constants
 locale.setlocale(locale.LC_ALL,'es_MX.utf8')
 if not request.user_agent()['is_mobile']: formstyle='table3cols'
