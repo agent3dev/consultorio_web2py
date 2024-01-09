@@ -198,7 +198,7 @@ def cancelar():
       redirect(URL('default','index'))
     else:
       days_offset = (app_rc['scheduled_day'] - datetime.date.today()).days
-      redirect(URL('default','index', vars=dict(service=app_rc['service'], days_offset=days_offset)))
+      redirect(URL('default','index', vars=dict(days_offset=days_offset)))
   else:
     session.flash = 'Error al leer los datos'
     redirect(URL('default','index'))
@@ -222,7 +222,7 @@ def confirmar():
       redirect(URL('default','index'))
     else:
       days_offset = (app_rc['scheduled_day'] - datetime.date.today()).days
-      redirect(URL('default','index', vars=dict(service=app_rc['service'], days_offset=days_offset)))
+      redirect(URL('default','index', vars=dict(days_offset=days_offset)))
   else:
     session.flash = 'Error al leer los datos'
     redirect(URL('default','index'))
@@ -253,6 +253,7 @@ def create():
                           service=serv_slot['service'],
                           service_slot=serv_slot['id'],
                           legacy=False,
+                          age=age,
                           created_on=datetime.datetime.now,
                           created_by=auth.user.id,
                           scheduled_day=sel_date,

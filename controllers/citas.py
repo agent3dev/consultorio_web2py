@@ -4,7 +4,7 @@
 def index():
   curmon, curyear = datetime.date.today().month, datetime.date.today().year
   # defaults
-  default_service = request.get_vars.service if request.get_vars.service else 1
+  default_service = request.get_vars.service if request.get_vars.service else 11
   default_month = int(request.get_vars.month) if request.get_vars.month else curmon
   default_year = int(request.get_vars.year) if request.get_vars.year else curyear
   # select vars
@@ -198,7 +198,7 @@ def cancelar():
       redirect(URL('default','index'))
     else:
       days_offset = (app_rc['scheduled_day'] - datetime.date.today()).days
-      redirect(URL('default','index', vars=dict(service=app_rc['service'], days_offset=days_offset)))
+      redirect(URL('default','index', vars=dict(days_offset=days_offset)))
   else:
     session.flash = 'Error al leer los datos'
     redirect(URL('default','index'))
@@ -222,7 +222,7 @@ def confirmar():
       redirect(URL('default','index'))
     else:
       days_offset = (app_rc['scheduled_day'] - datetime.date.today()).days
-      redirect(URL('default','index', vars=dict(service=app_rc['service'], days_offset=days_offset)))
+      redirect(URL('default','index', vars=dict(days_offset=days_offset)))
   else:
     session.flash = 'Error al leer los datos'
     redirect(URL('default','index'))

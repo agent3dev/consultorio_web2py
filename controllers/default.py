@@ -36,7 +36,8 @@ def index():
     act_srv_ids = get_ids(dc, dc.service.active == True)
     app_qry = (dc.appointment.patient == dc.patient.id) & \
       (dc.appointment.scheduled_day == open_date) & \
-        (dc.appointment.service.belongs(act_srv_ids))
+        (dc.appointment.service.belongs(act_srv_ids))  & \
+           (dc.appointment.status != 'Cancelada')
   status_colors = get_dict_from_query(dc, 'status_color', dc.status_color.status == dc.appointment.status, 'status', 'hex_code_1')
   css_line = 'font-size:medium; color:white; background-color:'
   dc.appointment.status.represent = lambda value, row:\

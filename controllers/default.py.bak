@@ -54,6 +54,7 @@ def index():
             dc.patient.patient_type,
             dc.appointment.patient,
             dc.patient.first_time,
+            dc.appointment.age,
             dc.appointment.status,
             dc.appointment.cost,
             dc.appointment.weight,
