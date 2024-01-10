@@ -1308,3 +1308,4 @@
 >>>>>>> 94e7569ea6908d2ea9ad0148043b4c2ddc5cc198
 [2024-01-10 10:52:33] EDIT agenda/models/dc_requires.py: -3
 [2024-01-10 10:52:52] EDIT agenda/models/dc_requires.py: -1
+[2024-01-10 11:12:44] EDIT agenda/controllers/citas.py: 1

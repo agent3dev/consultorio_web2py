@@ -238,6 +238,7 @@ def create():
     redirect(URL('citas','index'))
   else:
     try:
+      cost = int(request.get_vars.cost)
       patient = int(request.get_vars.patient)
       reference = int(request.get_vars.reference)
       days_offset = int(request.get_vars.days_offset)
@@ -262,7 +263,7 @@ def create():
                           created_by=auth.user.id,
                           scheduled_day=sel_date,
                           scheduled_time=serv_slot['hour'],
-                          cost=1300,
+                          cost=cost,
                           status='Pendiente')
   session.flash = 'Cita registrada'
   redirect(URL('default','index', vars=dict(days_offset=days_offset, service=serv_slot['service'])))

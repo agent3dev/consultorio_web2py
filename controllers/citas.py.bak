@@ -68,7 +68,7 @@ def horarios():
   serv_times = SC.load_day(sel_date)
   opts_table = TABLE(THEAD(TR(['Hora','Citas agendadas'])),_class='custom order')
   if serv_times[0] == -1:
-    opts_table = H3('No hay horarios creados para este dia')
+    opts_table = H5('No hay horarios creados para este dia')
   else:
       for row in serv_times:
         opts_table.append(TR(row['hour'],
