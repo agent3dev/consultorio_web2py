@@ -37,7 +37,7 @@ def horarios():
                                 formstyle='divs',formname='date_form',submit='Filtrar')
   if filter_form.process(formname='date_form', keepvalues=True).accepted:
     redirect(URL('horarios', vars=dict(service=filter_form.vars.service, day=filter_form.vars.day)))
-  query = (dc.service_slot.id > 0)
+  query = (dc.service_slot.active == True)
   if request.vars.service != None:
     query = query & (dc.service_slot.service == request.vars.service)
   if request.vars.day != None:

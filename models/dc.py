@@ -52,8 +52,7 @@ dc.define_table('service_slot',
                 Field('day_of_week', 'integer', label='Dia semana'),
                 Field('hour', 'time', label='Hora'),
                 Field('spaces', 'integer', label='Espacios'),
-                Field('active', 'boolean', default=True,
-                      readable=False, writable=False, label='Activo'))
+                Field('active', 'boolean', default=True, label='Activo'))
 dc.service_slot.id.readable = False
 
 dc.define_table('patient',
