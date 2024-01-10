@@ -25,7 +25,7 @@ def index():
 def horarios():
   response.title = 'Listado de horarios'
   act_srv_qry = dc.service.active == True
-  servicio_reqs = IS_EMPTY_OR(IS_IN_DB(dc(act_srv_qry), 'service.id', 'service.name', zero=T('choose one')))
+  servicio_reqs = IS_IN_DB(dc(dc.service.active == True),'service.id', 'service.name', zero=T('choose one'))
   days_dict = {1:'Lunes', 2:'Martes', 3:'Miercoles', 4:'Jueves', 5:'Viernes', 6:'Sabado', 0:'Domingo'}
   days_reqs = IS_EMPTY_OR(IS_IN_SET(days_dict, zero=T('choose one')))
   default_service = request.vars.service if request.vars.service else None
@@ -42,6 +42,9 @@ def horarios():
     query = query & (dc.service_slot.service == request.vars.service)
   if request.vars.day != None:
     query = query & (dc.service_slot.day_of_week == request.vars.day)
+  dc.service_slot.service.default = default_service
+  dc.service_slot.day_of_week.default = default_day
+  dc.service_slot.spaces.default = 1
   grid = SQLFORM.grid(query,
                       showbuttontext=True,
                       searchable=False,

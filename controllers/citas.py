@@ -4,7 +4,7 @@
 def index():
   curmon, curyear = datetime.date.today().month, datetime.date.today().year
   # defaults
-  default_service = request.get_vars.service if request.get_vars.service else 1
+  default_service = request.get_vars.service if request.get_vars.service else 11
   default_month = int(request.get_vars.month) if request.get_vars.month else curmon
   default_year = int(request.get_vars.year) if request.get_vars.year else curyear
   # select vars
@@ -67,13 +67,17 @@ def horarios():
   SC = ServiceCalendar(dc, serv_id)
   serv_times = SC.load_day(sel_date)
   opts_table = TABLE(THEAD(TR(['Hora','Citas agendadas'])),_class='custom order')
-  for row in serv_times:
-    opts_table.append(TR(row['hour'],
-                         row['count'],
-                         A(B('Elegir hora'),
-                           _href=URL('citas', 'costos', vars=dict(reference=row['reference'],
-                                                                  days_offset=days_offset))),
-                         ))
+  if serv_times[0] == -1:
+    opts_table = H5('No hay horarios creados para este dia')
+  else:
+      for row in serv_times:
+        opts_table.append(TR(row['hour'],
+                             row['count'],
+                             A(B('Elegir hora'),
+                               _href=URL('citas', 'costos', vars=dict(reference=row['reference'],
+                                                                      days_offset=days_offset))),
+                             ))
+  
   back = A(TAG.button('⇇ Regresar',_type='button', _onclick="window.history.back()"))
   return dict(opts_table=opts_table, back=back)
 
@@ -198,7 +202,7 @@ def cancelar():
       redirect(URL('default','index'))
     else:
       days_offset = (app_rc['scheduled_day'] - datetime.date.today()).days
-      redirect(URL('default','index', vars=dict(service=app_rc['service'], days_offset=days_offset)))
+      redirect(URL('default','index', vars=dict(days_offset=days_offset)))
   else:
     session.flash = 'Error al leer los datos'
     redirect(URL('default','index'))
@@ -222,7 +226,7 @@ def confirmar():
       redirect(URL('default','index'))
     else:
       days_offset = (app_rc['scheduled_day'] - datetime.date.today()).days
-      redirect(URL('default','index', vars=dict(service=app_rc['service'], days_offset=days_offset)))
+      redirect(URL('default','index', vars=dict(days_offset=days_offset)))
   else:
     session.flash = 'Error al leer los datos'
     redirect(URL('default','index'))
@@ -248,10 +252,12 @@ def create():
             (dc.appointment.scheduled_day == sel_date) & \
             (dc.appointment.scheduled_time == serv_slot['hour'])
   if dc(app_qry).count() == 0:
+    age = calculate_age(pat_rc['birth_date'], datetime.date.today())
     dc.appointment.insert(patient=patient,
                           service=serv_slot['service'],
                           service_slot=serv_slot['id'],
                           legacy=False,
+                          age=age,
                           created_on=datetime.datetime.now,
                           created_by=auth.user.id,
                           scheduled_day=sel_date,
@@ -266,6 +272,7 @@ import datetime
 import locale
 import calendar
 from service_calendar import ServiceCalendar
+from utils import calculate_age
 # constants
 locale.setlocale(locale.LC_ALL,'es_MX.utf8')
 if not request.user_agent()['is_mobile']: formstyle='table3cols'

@@ -378,3 +378,7 @@ CREATE TABLE `status_color`(
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB CHARACTER SET utf8;
 faked!
+timestamp: 2024-01-02T17:03:45.987027
+ALTER TABLE `appointment` ADD `age` VARCHAR(10);
+faked!
+success!

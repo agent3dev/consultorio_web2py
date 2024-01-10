@@ -36,7 +36,8 @@ def index():
     act_srv_ids = get_ids(dc, dc.service.active == True)
     app_qry = (dc.appointment.patient == dc.patient.id) & \
       (dc.appointment.scheduled_day == open_date) & \
-        (dc.appointment.service.belongs(act_srv_ids))
+        (dc.appointment.service.belongs(act_srv_ids))  & \
+           (dc.appointment.status != 'Cancelada')
   status_colors = get_dict_from_query(dc, 'status_color', dc.status_color.status == dc.appointment.status, 'status', 'hex_code_1')
   css_line = 'font-size:medium; color:white; background-color:'
   dc.appointment.status.represent = lambda value, row:\
@@ -54,6 +55,7 @@ def index():
             dc.patient.patient_type,
             dc.appointment.patient,
             dc.patient.first_time,
+            dc.appointment.age,
             dc.appointment.status,
             dc.appointment.cost,
             dc.appointment.weight,
@@ -97,7 +99,7 @@ def index():
                                     body=lambda row: A(TAG.button(stat_dict[row['appointment.status']],_class='grid_button'),
                                                        _href=URL('default', 'change_status', vars=dict(app=row['appointment.id']))) \
                                if row['appointment.status'] in statuses and \
-                                    row['appointment.scheduled_day'] == datetime.date.today() else '' ),
+                                    (row['appointment.scheduled_day'] == datetime.date.today() or auth.has_membership('admin')) else '' ),
                              ],
                       orderby=~dc.appointment.arrival_order|dc.appointment.scheduled_time)
   return dict(filter_form=filter_form, grid=grid)
