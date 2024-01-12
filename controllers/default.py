@@ -5,7 +5,9 @@ def index():
   dc.appointment.arrival_order.readable = False
   dc.appointment.weight.readable = False
   dc.appointment.height.readable = False
-  dc.appointment.comment.represent = lambda value, row: A(value if value is not None else '💬' , _class='grid_label',
+  dc.appointment.cost.represent = lambda value, row: A('✏️ ' + str(value) if value not in [None, ' '] else '✏️' , _class='grid_label',
+                                                       _href=URL('citas', 'costo', vars=dict(app=row['appointment.id'])))
+  dc.appointment.comment.represent = lambda value, row: A('💬 ' + value if value not in [None, ' '] else '💬' , _class='grid_label',
                                                        _href=URL('citas', 'comentario', vars=dict(app=row['appointment.id'])))
   act_srv_qry = dc.service.active == True
   servicio_reqs = IS_EMPTY_OR(IS_IN_DB(dc(act_srv_qry), 'service.id', 'service.name', zero=T('choose one')))
@@ -117,7 +119,8 @@ def mark_arrival(app_id):
         (dc.appointment.service == app_rc['service'])
     arrival_order = (get_first_sel(dc, app_qry, (dc.appointment.arrival_order.max())) or 0) + 1
     app_qry = (dc.appointment.patient == app_rc['patient']) & \
-      (dc.appointment.scheduled_day == app_rc['scheduled_day'])
+      (dc.appointment.scheduled_day == app_rc['scheduled_day']) & \
+        (dc.appointment.service == app_rc['service'])
     dc(app_qry).update(arrival_order=arrival_order,
                        status='En espera',
                        ptt_arrival=datetime.datetime.now())

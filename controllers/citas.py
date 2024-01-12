@@ -136,6 +136,32 @@ def comentario():
       redirect(back_url)
   return dict(comm_form=comm_form)
 
+
+@auth.requires(check_membership('clinic'))
+def costo():
+  if request.vars.app is None:
+    session.flash = 'Error al leer los datos'
+    redirect(URL('default','index'))
+  else:
+    app_id = int(request.vars.app)
+  app_rc = get_first(dc, dc.appointment.id == app_id)
+  pac_rc = get_first(dc, dc.patient.id == app_rc['patient'])
+  serv_rc = get_first(dc, dc.service.id == app_rc['service'])
+  response.title = 'Editar costo de cita de paciente: ' + pac_rc['first_name'] + ' ' + pac_rc['last_name'] + ' ' + pac_rc['second_last_name'] + \
+    ' ◇ Expediente: ' + pac_rc['expedient']
+  response.subtitle = 'Servicio: ' + serv_rc['name'] + ' ◇ Fecha: ' + app_rc['scheduled_day'].isoformat()
+  days_offset = (app_rc['scheduled_day'] - datetime.date.today()).days
+  back_url = URL('default', 'index', vars=dict(service=app_rc['service'], days_offset=days_offset))
+  comm_form = SQLFORM.factory(Field('cost','integer', default=app_rc['cost']),
+                              formstyle='divs', formname='comm_form')
+  comm_form.add_button('Cancelar', back_url)
+  if comm_form.process(formname='comm_form', keepvalues=True).accepted:
+    if comm_form.vars.cost is not None:
+      dc(dc.appointment.id == app_rc['id']).update(cost=comm_form.vars.cost)
+      session.flash = 'Costo guardado'
+      redirect(back_url)
+  return dict(comm_form=comm_form)
+
 @auth.requires(check_membership('clinic'))
 def historial():
   if  not request.vars.pac:

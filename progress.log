@@ -1310,3 +1310,16 @@
 [2024-01-10 10:52:52] EDIT agenda/models/dc_requires.py: -1
 [2024-01-10 11:12:44] EDIT agenda/controllers/citas.py: 1
 [2024-01-12 08:49:57] EDIT agenda/models/utils.py: 5
+[2024-01-12 12:23:57] EDIT agenda/controllers/default.py: 0
+[2024-01-12 12:24:39] EDIT agenda/controllers/default.py: 0
+[2024-01-12 12:24:46] EDIT agenda/controllers/default.py: 0
+[2024-01-12 12:27:25] EDIT agenda/controllers/default.py: 1
+[2024-01-12 12:29:31] EDIT agenda/controllers/default.py: 2
+[2024-01-12 12:29:47] EDIT agenda/controllers/default.py: 0
+[2024-01-12 12:30:18] EDIT agenda/controllers/default.py: 0
+[2024-01-12 12:31:44] EDIT agenda/controllers/citas.py: 24
+[2024-01-12 12:33:07] EDIT agenda/controllers/citas.py: 0
+[2024-01-12 12:33:50] CREATE citas/costo.html: 0
+[2024-01-12 12:33:58] EDIT agenda/views/citas/costo.html: 2
+[2024-01-12 12:34:28] EDIT agenda/controllers/citas.py: 0
+[2024-01-12 12:35:15] EDIT agenda/controllers/citas.py: 0
