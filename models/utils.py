@@ -11,6 +11,12 @@ def get_first(dc, query):
     else:
         return None
 
+def get_first_sel(dc, query, sel):
+    if dc(query).count() > 0:
+            return dc(query).select(sel).first()[sel]
+    else:
+        return None
+
 
 def get_all(dc, query):
     if dc(query).count() > 0:
